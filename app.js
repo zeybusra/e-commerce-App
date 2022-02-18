@@ -86,13 +86,13 @@ function scrollArea(scrollType) {
     if (scrollType === 'right') {
         const content_scroll_width = scrollableArea.scrollWidth;
 
-        content_scroll_left += productCard.offsetWidth * 4;
+        content_scroll_left += productCard.offsetWidth;
         // check if user tries to go out of screen
         if (content_scroll_left >= content_scroll_width) {
             content_scroll_left = content_scroll_width;
         }
     } else if (scrollType === 'left') {
-        content_scroll_left -= productCard.offsetWidth * 4;
+        content_scroll_left -= productCard.offsetWidth;
         // check if user tries to go out of screen
         if (content_scroll_left <= 0) {
             content_scroll_left = 0;
