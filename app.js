@@ -67,8 +67,8 @@ function addBasket() {
 
 
 // Scroll Process Start
-let beforeIcon = $(".before")
-let afterIcon = $(".after")
+let beforeIcon = $(".beforeIcon")
+let afterIcon = $(".afterIcon")
 
 beforeIcon.on("click", function () {
     scrollArea("left")
