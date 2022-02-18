@@ -112,20 +112,15 @@ function changeProductList(header) {
     productCard.remove()
 
     response.recommendedProducts[header].forEach(function (item) {
-        console.log('++++++++')
         let rating = item.params.productRatimg
-        console.log(rating)
-        // let flatRating = Math.floor(item.params.productRatimg)
-        // console.log(flatRating)
-
 
         cardBlok.append(`
                     <div class="card text-center product-card">
-                        <img class="card-img-top" src="` + item.image + `" alt="Card image cap">
+                       <a href="`+item.url+`"><img class="card-img-top" src="` + item.image + `" alt="Card image cap"></a>
                         <div id="shipping` + item.productId + `" class="card-img-overlay" style="position: initial; padding: 0">                      
                         </div>
                         <div class="card-body">
-                            <h6 class="card-title">` + item.name + `</h6>
+                            <a href="`+item.url+`"><h6 class="card-title">` + item.name + `</h6></a>
                         </div>
                         <div class="justify-content-center d-flex align-items-md-baseline">
                             <div id="starList` + item.productId + `" class="fs-7 text-decoration-none p-1" style="color: #ffae00">
@@ -171,5 +166,14 @@ function switchMenu(e) {
     changeProductList(e.target.dataset.text)
 }
 
-
+function resize() {
+    if ( $(window).width() < 992) {
+        $("#topDiv").addClass('vertical-nav');
+    }
+    else {
+        $("#topDiv").removeClass('vertical-nav');
+    }
+}
+$(window).on("resize", resize);
+resize(); // call once initially
 

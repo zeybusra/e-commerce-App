@@ -17,7 +17,7 @@
 <body>
 
 
-<div class="grid-container">
+<div id="topDiv" class="grid-container vertical-nav">
 
     <div class="header">
         <div class="container">
@@ -26,16 +26,16 @@
                 <div class="container-fluid">
                     <nav>
                         <div class="container-fluid">
-                            <a class="navbar-brand fs-5" href="#">
+                            <a class="navbar-brand fs-5" href="javascript:;">
                                 e-Commerce
                             </a>
                         </div>
                     </nav>
 
-                    <nav>
+                    <nav style="width: 50%">
                         <form class="form-inline justify-content-center">
-                            <div class="input-group">
-                                <input style="width: 600px" class="form-control mr-sm-2" type="search"
+                            <div class="input-group" style="flex-wrap: initial">
+                                <input class="form-control mr-sm-2 searchbar" type="search"
                                        placeholder="Aradığınız ürün, kategori veya markayı yazınız" aria-label="Search">
                                 <div class="input-group-append">
                                     <button class="btn btn-outline-warning" type="button">
@@ -46,22 +46,22 @@
                         </form>
                     </nav>
 
-                    <nav>
+                    <nav class="navbar-items">
                         <ul class="navbar-nav justify-content-end">
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="javascript:;">
                                     <span><i class="fas fa-user"></i></span>
                                     <span>Hesabım</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="javascript:;">
                                     <span><i class="fas fa-user"></i></span>
                                     <span>Favorilerim</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="javascript:;">
                                     <span><i class="fas fa-shopping-cart"></i></span>
                                     <span>Sepetim</span>
                                     <span id="basketCount" style="background-color: #ffae00"
@@ -82,12 +82,12 @@
 
             <ul id="menuItems" class="nav nav-pills flex-column">
 
-                <li class="nav-item">
-                    <a href="#" class="nav-link" aria-current="page">
+                <li class="nav-item smallScreen">
+                    <a href="javascript:;" class="nav-link" aria-current="page">
                         <i class="fas fa-bars mx-2"></i> Menu
                     </a>
                 </li>
-                <hr style="color: #000000">
+                <hr class="smallScreen" style="color: #000000">
 
             </ul>
         </div>

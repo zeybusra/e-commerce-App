@@ -34,10 +34,12 @@
     top: 280px;
     left: 300px;
 }
+
 .after {
     top: 280px;
     right: 18px;
 }
+
 .navigateIcon {
     position: absolute;
     z-index: 1000;
@@ -45,7 +47,6 @@
     font-size: xx-large;
     cursor: pointer;
 }
-
 
 
 .grid-container {
@@ -67,6 +68,7 @@
     color: #777777;
     font-size: medium;
 }
+
 
 .menu {
     grid-area: menu;
@@ -142,3 +144,17 @@
 .active {
     background-color: rgba(131, 131, 131, 0.5) !important;
 }
+
+
+@media screen and (max-width: 1200px) {
+    .navbar-items {
+        display: none;
+    }
+}
+
+
+.vertical-nav .smallScreen {
+    display: none;
+}
+
+
