@@ -72,6 +72,16 @@
 }
 
 
+.header a:hover {
+    color: #818181;
+}
+
+
+.header a:focus {
+    color: #777777;
+}
+
+
 .menu {
     grid-area: menu;
     border-radius: 15px;
@@ -92,7 +102,6 @@
 
 .menu a:hover {
     color: #818181;
-    cursor: pointer;
 }
 
 
