@@ -119,7 +119,7 @@ function changeProductList(header) {
 
         $("#scrollableArea").append(`
                     <div class="card text-center product-card">
-                       <a href="` + item.url + `"><img class="card-img-top" src="` + item.image + `" alt="Card image cap"></a>
+                       <a href="` + item.url + `"><img class="card-img-top" loading="lazy" src="` + item.image + `" alt="` + item.name + `"></a>
                         <div id="shipping` + item.productId + `" class="card-img-overlay" style="position: initial; padding: 0">                      
                         </div>
                         <div class="card-body">
