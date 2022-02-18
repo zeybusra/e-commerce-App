@@ -1,3 +1,53 @@
+/*.scrolling-wrapper {*/
+/*    overflow-x: scroll;*/
+/*    overflow-y: hidden;*/
+/*    white-space: nowrap;*/
+/*}*/
+
+/*.scrolling-wrapper .product-card {*/
+/*    display: inline-block;*/
+/*}*/
+
+.scrolling-wrapper-flexbox {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+}
+
+.scrolling-wrapper-flexbox .product-card {
+    flex: 0 0 auto;
+    margin-right: 15px;
+    width: 400px;
+}
+
+.scrolling-wrapper-flexbox {
+    margin-bottom: 20px;
+    width: 99%;
+    -webkit-overflow-scrolling: touch;
+}
+
+.scrolling-wrapper-flexbox::-webkit-scrollbar {
+    display: none;
+}
+
+.before {
+    top: 280px;
+    left: 300px;
+}
+.after {
+    top: 280px;
+    right: 18px;
+}
+.navigateIcon {
+    position: absolute;
+    z-index: 1000;
+    color: #626262;
+    font-size: xx-large;
+    cursor: pointer;
+}
+
+
+
 .grid-container {
     font-size: 10px;
     display: grid;
@@ -9,29 +59,46 @@
     /*background-color: #161718;*/
 }
 
-/*.flex-container {*/
-/*    display: flex;*/
-/*    !*flex-wrap: nowrap;*!*/
-/*    background-color: #373570;*/
-/*}*/
-
-/*.flex-container div {*/
-/*    !*background-color: #f1f1f1;*!*/
-/*    margin: 2px;*/
-/*    text-align: center;*/
-/*    !*font-size: 10px;*!*/
-/*}*/
-
 .header {
     grid-area: header;
 }
 
+.header a {
+    color: #777777;
+    font-size: medium;
+}
+
 .menu {
     grid-area: menu;
+    background-color: #c9c8c8;
+    border-radius: 15px;
+    width: 280px;
+}
+
+.menu a {
+    color: black;
+    text-decoration: none;
+    font-size: medium;
+    margin-left: 10px;
+}
+
+.menu a:hover {
+    color: #818181;
+    cursor: pointer;
 }
 
 .main {
     grid-area: main;
+}
+
+.xx i {
+    font-size: medium;
+}
+
+.card a {
+    text-decoration: none;
+    color: black;
+    font-size: small;
 }
 
 .footer {
@@ -58,13 +125,20 @@
 }
 
 .footer {
-    background-color: #9d9d94;
+    background-color: #eeeeee;
     grid-column: 1 / 7;
     grid-row: 5;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    font-size: small;
 }
 
 .card-footer {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.active {
+    background-color: rgba(131, 131, 131, 0.5) !important;
 }
