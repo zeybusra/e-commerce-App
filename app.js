@@ -1,46 +1,48 @@
 let basketCount = $("#basketCount")
-document.addEventListener("DOMContentLoaded", getAllData);
-
-// Response set here and after sending request ONCE, update the variable.
-var response;
+document.addEventListener("DOMContentLoaded", loadPage);
 
 function getAllData() {
+    let response;
     const xhr = new XMLHttpRequest();
-    xhr.open("GET", "product-list.json", true);
+    xhr.open("GET", "product-list.json", false);
     xhr.onload = function () {
         if (this.status === 200) {
             const parsedData = JSON.parse(this.responseText);
             if (parsedData.statusCode === "SUCCESS") {
                 response = parsedData.responses[0][0].params
-
-                let menuItems = $("#menuItems")
-
-                response.userCategories.forEach(function (e) {
-
-                    // data-text set to reach 'exact' value without any space or character.
-                    menuItems.append(`
-                    <li class="nav-item menu-item">
-                        <a data-text="` + e + `" href="#" class="nav-link" aria-current="page">
-                            ` + e + `
-                        </a>
-                    </li>
-                    `)
-
-                })
-
-                $(".nav-link").on("click", switchMenu)
-
-                changeProductList(response.userCategories[0])
-
             } else {
                 console.log("Hata oluştu")
             }
-
         } else {
             console.log("Hata oluştu")
         }
     }
     xhr.send();
+
+    return response
+}
+
+function loadPage(){
+    let response = getAllData()
+
+    let menuItems = $("#menuItems")
+    response.userCategories.forEach(function (e) {
+
+        // data-text set to reach 'exact' value without any space or character.
+        menuItems.append(`
+        <li class="nav-item menu-item">
+            <a data-text="` + e + `" href="#" class="nav-link" aria-current="page">
+                ` + e + `
+            </a>
+        </li>
+        `)
+
+    })
+
+    $(".nav-link").on("click", switchMenu)
+
+    // First category is set to "active" and its products are added to page.
+    changeProductList(response.userCategories[0], response.recommendedProducts)
 }
 
 function defineToasts(className) {
@@ -102,7 +104,7 @@ function scrollArea(scrollType) {
 }
 // Scroll Process End
 
-function changeProductList(header) {
+function changeProductList(header, productList) {
     // Find all menu items and clear "active" class
     let clickedMenuItem = document.querySelector('[data-text="' + header + '"]');
     let allMenuItems = $(".nav-link")
@@ -114,7 +116,7 @@ function changeProductList(header) {
     $(".product-card").remove()
 
     // Append each product from new selected menu.
-    response.recommendedProducts[header].forEach(function (item) {
+    productList[header].forEach(function (item) {
         let rating = item.params.productRatimg
 
         $("#scrollableArea").append(`
@@ -172,8 +174,11 @@ function changeProductList(header) {
 }
 
 function switchMenu(e) {
+    // Get product list each time again.
+    let response = getAllData()
+
     // Send text of menu item to the function
-    changeProductList(e.target.dataset.text)
+    changeProductList(e.target.dataset.text, response.recommendedProducts)
 }
 
 // Responsive design compares "horizontal-nav"
