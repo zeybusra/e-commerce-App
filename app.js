@@ -1,23 +1,23 @@
 let basketCount = $("#basketCount")
-
-
 document.addEventListener("DOMContentLoaded", getAllData);
+
+// Response set here and after sending request ONCE, update the variable.
 var response;
 
 function getAllData() {
     const xhr = new XMLHttpRequest();
     xhr.open("GET", "product-list.json", true);
     xhr.onload = function () {
-        let list = document.getElementById("data");
-        // if (statusCode == SUCCESS) {
-        if (this.status == 200) {
+        if (this.status === 200) {
             const parsedData = JSON.parse(this.responseText);
-            if (parsedData.statusCode == "SUCCESS") {
+            if (parsedData.statusCode === "SUCCESS") {
                 response = parsedData.responses[0][0].params
 
                 let menuItems = $("#menuItems")
+
                 response.userCategories.forEach(function (e) {
 
+                    // data-text set to reach 'exact' value without any space or character.
                     menuItems.append(`
                     <li class="nav-item menu-item">
                         <a data-text="` + e + `" href="#" class="nav-link" aria-current="page">
@@ -25,10 +25,10 @@ function getAllData() {
                         </a>
                     </li>
                     `)
+
                 })
 
-                let aElements = $(".nav-link")
-                aElements.on("click", switchMenu)
+                $(".nav-link").on("click", switchMenu)
 
                 changeProductList(response.userCategories[0])
 
@@ -44,7 +44,8 @@ function getAllData() {
 }
 
 function defineToasts(className) {
-    // Toast handler
+    // Toast handler.
+    // After changing menu, product list is changed and needed to be re-set event listener.
     var toastTrigger = $('.' + className)
     var toastLiveDiv = $('#liveToast')
 
@@ -56,6 +57,7 @@ function defineToasts(className) {
 }
 
 function addBasket() {
+    // Item number in basket is changed on navbar.
     if (basketCount.text() === "") {
         basketCount.text(1)
     } else {
@@ -64,10 +66,10 @@ function addBasket() {
 }
 
 
+// Scroll Process Start
 let beforeIcon = $(".before")
 let afterIcon = $(".after")
 
-//Scroll Process Start
 beforeIcon.on("click", function () {
     scrollArea("left")
 })
@@ -85,35 +87,37 @@ function scrollArea(scrollType) {
         const content_scroll_width = scrollableArea.scrollWidth;
 
         content_scroll_left += productCard.offsetWidth * 4;
+        // check if user tries to go out of screen
         if (content_scroll_left >= content_scroll_width) {
             content_scroll_left = content_scroll_width;
         }
     } else if (scrollType === 'left') {
         content_scroll_left -= productCard.offsetWidth * 4;
+        // check if user tries to go out of screen
         if (content_scroll_left <= 0) {
             content_scroll_left = 0;
         }
     }
     scrollableArea.scrollLeft = content_scroll_left;
 }
-
-//Scroll Process End
+// Scroll Process End
 
 function changeProductList(header) {
+    // Find all menu items and clear "active" class
     let clickedMenuItem = document.querySelector('[data-text="' + header + '"]');
     let allMenuItems = $(".nav-link")
     allMenuItems.removeClass('active')
+    // Add "active" class to the last selected menu item.
     clickedMenuItem.classList.add('active')
 
+    // Clear all products before adding new menu products.
+    $(".product-card").remove()
 
-    cardBlok = $("#scrollableArea")
-    let productCard = $(".product-card")
-    productCard.remove()
-
+    // Append each product from new selected menu.
     response.recommendedProducts[header].forEach(function (item) {
         let rating = item.params.productRatimg
 
-        cardBlok.append(`
+        $("#scrollableArea").append(`
                     <div class="card text-center product-card">
                        <a href="` + item.url + `"><img class="card-img-top" src="` + item.image + `" alt="Card image cap"></a>
                         <div id="shipping` + item.productId + `" class="card-img-overlay" style="position: initial; padding: 0">                      
@@ -145,26 +149,34 @@ function changeProductList(header) {
                         </p>
                         `)
         }
+
         let starList = $("#starList" + item.productId)
         for (let i = 1; i < 6; i++) {
+            // Add full star
             if (rating >= i) {
                 starList.append(`<i class="fas fa-star"></i>`)
+
+            // Add half star if rating decimal is bigger than 0.5.
             } else if (Math.round(rating) === i) {
                 starList.append(`<i class="fas fa-star-half-alt"></i>`)
 
+            // Add empty star for rest.
             } else {
                 starList.append(`<i class="far fa-star"></i>`)
             }
         }
     })
 
+    // Define event listener to "add to basket" buttons after adding them newly to page.
     defineToasts("liveToastBtn")
 }
 
 function switchMenu(e) {
+    // Send text of menu item to the function
     changeProductList(e.target.dataset.text)
 }
 
+// Responsive design compares "horizontal-nav"
 function resize() {
     if ($(window).width() < 992) {
         $("#topDiv").addClass('horizontal-nav');
