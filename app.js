@@ -1,4 +1,4 @@
-let basketCount= $("#basketCount")
+let basketCount = $("#basketCount")
 
 
 document.addEventListener("DOMContentLoaded", getAllData);
@@ -19,7 +19,7 @@ function getAllData() {
                 response.userCategories.forEach(function (e) {
 
                     menuItems.append(`
-                    <li class="nav-item">
+                    <li class="nav-item menu-item">
                         <a data-text="` + e + `" href="#" class="nav-link" aria-current="page">
                             ` + e + `
                         </a>
@@ -56,13 +56,12 @@ function defineToasts(className) {
 }
 
 function addBasket() {
-    if (basketCount.text()===""){
+    if (basketCount.text() === "") {
         basketCount.text(1)
-    }else{
-        basketCount.text(Number(basketCount.text()) +1)
+    } else {
+        basketCount.text(Number(basketCount.text()) + 1)
     }
 }
-
 
 
 let beforeIcon = $(".before")
@@ -116,11 +115,11 @@ function changeProductList(header) {
 
         cardBlok.append(`
                     <div class="card text-center product-card">
-                       <a href="`+item.url+`"><img class="card-img-top" src="` + item.image + `" alt="Card image cap"></a>
+                       <a href="` + item.url + `"><img class="card-img-top" src="` + item.image + `" alt="Card image cap"></a>
                         <div id="shipping` + item.productId + `" class="card-img-overlay" style="position: initial; padding: 0">                      
                         </div>
                         <div class="card-body">
-                            <a href="`+item.url+`"><h6 class="card-title">` + item.name + `</h6></a>
+                            <a href="` + item.url + `"><h6 class="card-title">` + item.name + `</h6></a>
                         </div>
                         <div class="justify-content-center d-flex align-items-md-baseline">
                             <div id="starList` + item.productId + `" class="fs-7 text-decoration-none p-1" style="color: #ffae00">
@@ -167,13 +166,13 @@ function switchMenu(e) {
 }
 
 function resize() {
-    if ( $(window).width() < 992) {
-        $("#topDiv").addClass('vertical-nav');
-    }
-    else {
-        $("#topDiv").removeClass('vertical-nav');
+    if ($(window).width() < 992) {
+        $("#topDiv").addClass('horizontal-nav');
+    } else {
+        $("#topDiv").removeClass('horizontal-nav');
     }
 }
+
 $(window).on("resize", resize);
 resize(); // call once initially
 
