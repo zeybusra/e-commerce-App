@@ -13,10 +13,10 @@ A component of an e-commerce website designed. Responsive design considered whil
 
 ### Web View
 
-![e-commerce App](https://github.com/zeybusra/e-commerce-App/blob/main/e-commerce-1.jpg?raw=true)
+![e-commerce App](https://github.com/zeybusra/e-commerce-App/blob/main/e-commerce-1.png?raw=true)
 
 
 ### Mobile View
 
-![e-commerce App](https://github.com/zeybusra/e-commerce-App/blob/main/e-commerce-2.jpg?raw=true)
+![e-commerce App](https://github.com/zeybusra/e-commerce-App/blob/main/e-commerce-2.png?raw=true)
 
