@@ -1,6 +1,18 @@
 let basketCount = $("#basketCount")
 document.addEventListener("DOMContentLoaded", loadPage);
 
+// Responsive design compares "horizontal-nav"
+function resize() {
+    if ($(window).width() < 992) {
+        $("#topDiv").addClass('horizontal-nav');
+    } else {
+        $("#topDiv").removeClass('horizontal-nav');
+    }
+}
+
+$(window).on("resize", resize);
+resize(); // call once initially
+
 function getAllData() {
     let response;
     const xhr = new XMLHttpRequest();
@@ -36,7 +48,6 @@ function loadPage(){
             </a>
         </li>
         `)
-
     })
 
     $(".nav-link").on("click", switchMenu)
@@ -65,6 +76,85 @@ function addBasket() {
     } else {
         basketCount.text(Number(basketCount.text()) + 1)
     }
+}
+
+
+
+function changeProductList(header, productList) {
+    // Find all menu items and clear "active" class
+    let clickedMenuItem = document.querySelector('[data-text="' + header + '"]');
+    let allMenuItems = $(".nav-link")
+    allMenuItems.removeClass('active')
+    // Add "active" class to the last selected menu item.
+    clickedMenuItem.classList.add('active')
+
+    // Clear all products before adding new menu products.
+    $(".product-card").remove()
+
+    // Append each product from new selected menu.
+    productList[header].forEach(function (item) {
+
+        $("#scrollableArea").append(`
+                    <div class="card text-center product-card">
+                       <a href="` + item.url + `"><img class="card-img-top" loading="lazy" src="` + item.image + `" alt="` + item.name + `"></a>
+                        <div id="shipping` + item.productId + `" class="card-img-overlay" style="position: initial; padding: 0">                      
+                        </div>
+                        <div class="card-body">
+                            <a href="` + item.url + `"><h6 class="card-title">` + item.name + `</h6></a>
+                        </div>
+                        <div class="justify-content-center d-flex align-items-md-baseline">
+                            <div id="starList` + item.productId + `" class="fs-7 text-decoration-none p-1" style="color: #ffae00">
+                            </div>
+                                <p style="font-size: small">` + item.params.productRatimg + `</p>
+                        </div>
+                        <div class="card-footer ">
+                            <div class="badge bg-light p-2 text-dark">
+                                <span class="fs-6 text-muted" style="text-decoration:line-through; margin-right: 10px;">` + item.oldPriceText + `</span>
+                                <span class="fs-5">` + item.priceText + `</span>
+                            </div>
+                            <button data-product-id="` + item.productId + `" type="button" class="btn btn-warning mx-2 liveToastBtn">Sepete ekle</button>
+                        </div>
+                    </div>
+                    `)
+
+        if (item.params.shippingFee === "FREE") {
+            let shipping = $("#shipping" + item.productId)
+            shipping.append(`
+                        <p style=" position: absolute; top: 8px; left: 16px; background-color: #ababab"
+                                   class="p-1 rounded-2 text-white">
+                                   KARGO BEDAVA
+                        </p>
+                        `)
+        }
+
+        let rating = item.params.productRatimg
+        let starList = $("#starList" + item.productId)
+        for (let i = 1; i < 6; i++) {
+            // Add full star
+            if (rating >= i) {
+                starList.append(`<i class="fas fa-star"></i>`)
+
+            // Add half star if rating decimal is bigger than 0.5.
+            } else if (Math.round(rating) === i) {
+                starList.append(`<i class="fas fa-star-half-alt"></i>`)
+
+            // Add empty star for rest.
+            } else {
+                starList.append(`<i class="far fa-star"></i>`)
+            }
+        }
+    })
+
+    // Define event listener to "add to basket" buttons after adding them newly to page.
+    defineToasts("liveToastBtn")
+}
+
+function switchMenu(e) {
+    // Get product list each time again.
+    let response = getAllData()
+
+    // Send text of menu item to the function
+    changeProductList(e.target.dataset.text, response.recommendedProducts)
 }
 
 
@@ -104,92 +194,4 @@ function scrollArea(scrollType) {
 }
 // Scroll Process End
 
-function changeProductList(header, productList) {
-    // Find all menu items and clear "active" class
-    let clickedMenuItem = document.querySelector('[data-text="' + header + '"]');
-    let allMenuItems = $(".nav-link")
-    allMenuItems.removeClass('active')
-    // Add "active" class to the last selected menu item.
-    clickedMenuItem.classList.add('active')
-
-    // Clear all products before adding new menu products.
-    $(".product-card").remove()
-
-    // Append each product from new selected menu.
-    productList[header].forEach(function (item) {
-        let rating = item.params.productRatimg
-
-        $("#scrollableArea").append(`
-                    <div class="card text-center product-card">
-                       <a href="` + item.url + `"><img class="card-img-top" loading="lazy" src="` + item.image + `" alt="` + item.name + `"></a>
-                        <div id="shipping` + item.productId + `" class="card-img-overlay" style="position: initial; padding: 0">                      
-                        </div>
-                        <div class="card-body">
-                            <a href="` + item.url + `"><h6 class="card-title">` + item.name + `</h6></a>
-                        </div>
-                        <div class="justify-content-center d-flex align-items-md-baseline">
-                            <div id="starList` + item.productId + `" class="fs-7 text-decoration-none p-1" style="color: #ffae00">
-                            </div>
-                                <p style="font-size: small">` + item.params.productRatimg + `</p>
-                        </div>
-                        <div class="card-footer ">
-                            <div class="badge bg-light p-2 text-dark">
-                                <span class="fs-6 text-muted" style="text-decoration:line-through; margin-right: 10px;">` + item.oldPriceText + `</span>
-                                <span class="fs-5">` + item.priceText + `</span>
-                            </div>
-                            <button data-product-id="` + item.productId + `" type="button" class="btn btn-warning mx-2 liveToastBtn">Sepete ekle</button>
-                        </div>
-                    </div>
-                    `)
-
-        if (item.params.shippingFee === "FREE") {
-            let shipping = $("#shipping" + item.productId)
-            shipping.append(`
-                        <p style=" position: absolute; top: 8px; left: 16px; background-color: #ababab"
-                                   class="p-1 rounded-2 text-white">
-                                   KARGO BEDAVA
-                        </p>
-                        `)
-        }
-
-        let starList = $("#starList" + item.productId)
-        for (let i = 1; i < 6; i++) {
-            // Add full star
-            if (rating >= i) {
-                starList.append(`<i class="fas fa-star"></i>`)
-
-            // Add half star if rating decimal is bigger than 0.5.
-            } else if (Math.round(rating) === i) {
-                starList.append(`<i class="fas fa-star-half-alt"></i>`)
-
-            // Add empty star for rest.
-            } else {
-                starList.append(`<i class="far fa-star"></i>`)
-            }
-        }
-    })
-
-    // Define event listener to "add to basket" buttons after adding them newly to page.
-    defineToasts("liveToastBtn")
-}
-
-function switchMenu(e) {
-    // Get product list each time again.
-    let response = getAllData()
-
-    // Send text of menu item to the function
-    changeProductList(e.target.dataset.text, response.recommendedProducts)
-}
-
-// Responsive design compares "horizontal-nav"
-function resize() {
-    if ($(window).width() < 992) {
-        $("#topDiv").addClass('horizontal-nav');
-    } else {
-        $("#topDiv").removeClass('horizontal-nav');
-    }
-}
-
-$(window).on("resize", resize);
-resize(); // call once initially
 
